@@ -89,10 +89,11 @@ No images, labels, checkpoints or result files are stored here. The data are pub
 Each script's header lists its options. `python -m lungcad.wp4.selftest` tests scripts `43` and `44` end to end on a
 synthetic cohort (no NLST data).
 
-**Analysis plans.** The WP4 scripts that join NLST outcomes to model scores (`43`, `44`, `46 sensitivity`) refuse to run
-unless the WP4 analysis plan (`report/wp4_nlst_prespec.md`) is committed in the repository and the participant splits
-match the recorded SHA-256 (`lungcad/wp4/guard.py`). The thesis analysis plans are not part of this repository; their
-SHA-256 hashes are listed in the thesis (Appendix C).
+**WP4 analysis plan.** The WP4 scripts that join NLST outcomes to model scores (`43`, `44`, `46 sensitivity`) refuse to
+run unless the WP4 analysis plan is committed in the repository and the participant splits match the recorded SHA-256
+(`lungcad/wp4/guard.py`). The plan is therefore included, byte-for-byte as committed before any NLST system output
+existed, as `report/wp4_nlst_prespec.md`; `sha256sum report/wp4_nlst_prespec.md` gives the value listed in the thesis
+(Appendix C, Table 40). The other analysis plans are not read by any code and are not included.
 
 ## Traceability
 
