@@ -1,0 +1,26 @@
+# Stage 2 — three architectures, identical data / folds / preprocessing / schedule (S6)
+train:
+  epochs: 40                      # fold-0 epoch study (5 Oct 2026): mean of last 3 val CPM, C official 0.922 (40) vs 0.909 (60),
+                                  # C own 0.934 vs 0.938 -> gain < 0.01 -> 40. Measured 4 Oct (official, fold 0): per epoch A 2.1 / B 5.3 / C 5.4 min
+                                  # + validation every 4 epochs A 3.6 / B 4.4 / C 4.4 min -> 40 ep: A 2.0 h, B/C 4.3 h; own regime C 1.3 h
+  batch_size: 48                  # 3 x 48^3 crops per sample
+  eval_batch_size: 192
+  lr: 3.0e-4                      # A and B
+  warmup_iters: 200
+  weight_decay: 1.0e-2
+  focal_alpha: 0.5
+  focal_gamma: 2.0
+  amp: true
+  workers: 8
+  pos_repeat: 4                   # positives oversampled x4
+  neg_per_scan: 40                # negatives renewed every epoch  -> ~1:6 pos:neg effective
+  hard_neg_frac: 0.5              # half of the negatives from the highest-scoring pool (online hard-negative mining)
+  hard_neg_prior: 0.0             # score of a never-seen negative: 0 = mine from epoch 2 (4 Oct); 1.0 = explore-first (mining only after ~29 epochs)
+  val_every: 4
+models:
+  A: {dropout: 0.3}
+  B: {dropout: 0.3, hidden: 256}
+  C: {d_model: 256, depth: 4, heads: 4, ff: 512, dropout: 0.1, fusion: attention, use_scale_embedding: true, use_pos_embedding: true, lr: 1.0e-4, warmup_iters: 2000}
+augment:
+  dose_kernel: true               # 4 Oct: on (E1: S4-style augmentation made the detector more robust to softer kernels); applied to the raw block
+  dose_kernel_params: {p_noise: 0.5, p_kernel: 0.5, sigma_hu: [10.0, 60.0]}

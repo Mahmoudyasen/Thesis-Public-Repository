@@ -1,0 +1,9 @@
+# Separate environment for the TCIA download and lesion-table scripts (15, 19) and DICOM header reading.
+# Python 3.12. These scripts do not import ASTRA; the main environment (requirements.txt) also has every package they use.
+numpy==2.5.4
+scipy==1.18.1
+pandas==3.1.0
+pydicom==3.0.2
+SimpleITK==2.5.6
+lz4==4.4.5
+openpyxl==3.1.5
